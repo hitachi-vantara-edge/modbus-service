@@ -1,0 +1,3 @@
+package: github.com/hitachi-vantara-edge/modbus-service
+import:
+- package: github.com/jasonlvhit/gocron
