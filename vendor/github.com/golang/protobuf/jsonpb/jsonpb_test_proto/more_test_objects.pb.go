@@ -3,9 +3,11 @@
 
 package jsonpb
 
-import proto "github.com/golang/protobuf/proto"
-import fmt "fmt"
-import math "math"
+import (
+	fmt "fmt"
+	proto "github.com/golang/protobuf/proto"
+	math "math"
+)
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
@@ -59,14 +61,15 @@ func (*Simple3) ProtoMessage()    {}
 func (*Simple3) Descriptor() ([]byte, []int) {
 	return fileDescriptor_e6c135db3023e377, []int{0}
 }
+
 func (m *Simple3) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_Simple3.Unmarshal(m, b)
 }
 func (m *Simple3) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_Simple3.Marshal(b, m, deterministic)
 }
-func (dst *Simple3) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Simple3.Merge(dst, src)
+func (m *Simple3) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Simple3.Merge(m, src)
 }
 func (m *Simple3) XXX_Size() int {
 	return xxx_messageInfo_Simple3.Size(m)
@@ -97,14 +100,15 @@ func (*SimpleSlice3) ProtoMessage()    {}
 func (*SimpleSlice3) Descriptor() ([]byte, []int) {
 	return fileDescriptor_e6c135db3023e377, []int{1}
 }
+
 func (m *SimpleSlice3) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_SimpleSlice3.Unmarshal(m, b)
 }
 func (m *SimpleSlice3) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_SimpleSlice3.Marshal(b, m, deterministic)
 }
-func (dst *SimpleSlice3) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_SimpleSlice3.Merge(dst, src)
+func (m *SimpleSlice3) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SimpleSlice3.Merge(m, src)
 }
 func (m *SimpleSlice3) XXX_Size() int {
 	return xxx_messageInfo_SimpleSlice3.Size(m)
@@ -135,14 +139,15 @@ func (*SimpleMap3) ProtoMessage()    {}
 func (*SimpleMap3) Descriptor() ([]byte, []int) {
 	return fileDescriptor_e6c135db3023e377, []int{2}
 }
+
 func (m *SimpleMap3) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_SimpleMap3.Unmarshal(m, b)
 }
 func (m *SimpleMap3) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_SimpleMap3.Marshal(b, m, deterministic)
 }
-func (dst *SimpleMap3) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_SimpleMap3.Merge(dst, src)
+func (m *SimpleMap3) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SimpleMap3.Merge(m, src)
 }
 func (m *SimpleMap3) XXX_Size() int {
 	return xxx_messageInfo_SimpleMap3.Size(m)
@@ -173,14 +178,15 @@ func (*SimpleNull3) ProtoMessage()    {}
 func (*SimpleNull3) Descriptor() ([]byte, []int) {
 	return fileDescriptor_e6c135db3023e377, []int{3}
 }
+
 func (m *SimpleNull3) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_SimpleNull3.Unmarshal(m, b)
 }
 func (m *SimpleNull3) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_SimpleNull3.Marshal(b, m, deterministic)
 }
-func (dst *SimpleNull3) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_SimpleNull3.Merge(dst, src)
+func (m *SimpleNull3) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SimpleNull3.Merge(m, src)
 }
 func (m *SimpleNull3) XXX_Size() int {
 	return xxx_messageInfo_SimpleNull3.Size(m)
@@ -220,14 +226,15 @@ func (*Mappy) ProtoMessage()    {}
 func (*Mappy) Descriptor() ([]byte, []int) {
 	return fileDescriptor_e6c135db3023e377, []int{4}
 }
+
 func (m *Mappy) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_Mappy.Unmarshal(m, b)
 }
 func (m *Mappy) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_Mappy.Marshal(b, m, deterministic)
 }
-func (dst *Mappy) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Mappy.Merge(dst, src)
+func (m *Mappy) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Mappy.Merge(m, src)
 }
 func (m *Mappy) XXX_Size() int {
 	return xxx_messageInfo_Mappy.Size(m)
@@ -309,6 +316,7 @@ func (m *Mappy) GetU64Booly() map[uint64]bool {
 }
 
 func init() {
+	proto.RegisterEnum("jsonpb.Numeral", Numeral_name, Numeral_value)
 	proto.RegisterType((*Simple3)(nil), "jsonpb.Simple3")
 	proto.RegisterType((*SimpleSlice3)(nil), "jsonpb.SimpleSlice3")
 	proto.RegisterType((*SimpleMap3)(nil), "jsonpb.SimpleMap3")
@@ -325,7 +333,6 @@ func init() {
 	proto.RegisterMapType((map[string]string)(nil), "jsonpb.Mappy.StrryEntry")
 	proto.RegisterMapType((map[uint32]bool)(nil), "jsonpb.Mappy.U32boolyEntry")
 	proto.RegisterMapType((map[uint64]bool)(nil), "jsonpb.Mappy.U64boolyEntry")
-	proto.RegisterEnum("jsonpb.Numeral", Numeral_name, Numeral_value)
 }
 
 func init() { proto.RegisterFile("more_test_objects.proto", fileDescriptor_e6c135db3023e377) }

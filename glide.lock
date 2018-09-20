@@ -1,16 +1,14 @@
-hash: 6dd64b75dacffcd4103af6638c8833287c0798777e0b104a8753c7610c983240
-updated: 2018-09-11T18:01:53.255214425-07:00
+hash: c21612aaad7cf97ec5d894ac51acc51653cf84f44463206c6d1baee4d343c422
+updated: 2018-09-20T09:20:11.111378888-07:00
 imports:
 - name: github.com/golang/protobuf
-  version: ebb3f5824e60ab924d5a647fdc09b85d87c2829f
+  version: 7716a980bceefe9a0213654823d9ea62d23b87a2
   subpackages:
   - proto
   - ptypes
   - ptypes/any
   - ptypes/duration
   - ptypes/timestamp
-- name: github.com/jasonlvhit/gocron
-  version: 54194c9749d48b073c9aeb2c787b6882e95dd0cd
 - name: github.com/sony/sonyflake
   version: fa881fb1052b152e977c41023052c2f2a1c475e9
 - name: golang.org/x/net
@@ -24,7 +22,7 @@ imports:
   - internal/timeseries
   - trace
 - name: golang.org/x/sys
-  version: d0be0721c37eeb5299f245a996a483160fc36940
+  version: d641721ec2dead6fe5ca284096fe4b1fcd49e427
   subpackages:
   - unix
 - name: golang.org/x/text
@@ -35,11 +33,11 @@ imports:
   - unicode/bidi
   - unicode/norm
 - name: google.golang.org/genproto
-  version: 36d5787dc5356b711fe8f3040271aaf51c35955b
+  version: c3f76f3b92d1ffa4c58a9ff842a58b8877655e0f
   subpackages:
   - googleapis/rpc/status
 - name: google.golang.org/grpc
-  version: 9cc4fdbde2304827ffdbc7896f49db40c5536600
+  version: 8ce7e6babb5ad539d8448d25aaba0708af2626ed
   subpackages:
   - balancer
   - balancer/base
