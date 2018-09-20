@@ -1,10 +1,10 @@
 syntax = "proto3";
 
-package modbus;
+package api;
 
 service Modbus {
 
-  rpc ReadHoldingReg (ReadHoldingRegRequest) returns (ReadHoldingRegReply) {}
+  rpc ReadReg (ReadRegRequest) returns (ReadRegReply) {}
 
   rpc ReadCoil (ReadCoilRequest) returns (ReadCoilReply) {}
 
@@ -18,38 +18,38 @@ service Modbus {
 
 }
 
-message ReadHoldingRegRequest {
-  uint32 slave_addr = 1;
-  uint32 start_addr = 2;
-  uint32 num_of_reg = 3;
-  bool   read_input = 4;
+message ReadRegRequest {
+  int32 slave_addr = 1;
+  int32 start_addr = 2;
+  int32 num_of_reg = 3;
+  bool  read_input = 4;
 }
 
-message ReadHoldingRegReply {
-  uint32 byte_count = 1;
+message ReadRegReply {
+  int32 byte_count = 1;
   bool   is_input = 2;
 
-  message HoldingRegisterValue {
-    uint32 addr = 1;
+  message RegisterValue {
+    int32 addr = 1;
     string value = 2;
   }
   
-  repeated HoldingRegisterValue values = 3;
+  repeated RegisterValue values = 3;
 }
 
 message ReadCoilRequest {
-  uint32 slave_addr = 1;
-  uint32 start_addr = 2;
-  uint32 num_of_coil = 3;
+  int32 slave_addr = 1;
+  int32 start_addr = 2;
+  int32 num_of_coil = 3;
   bool   read_input = 4;
 }
 
 message ReadCoilReply {
-  uint32 bit_count = 1;
+  int32 bit_count = 1;
   bool   is_input = 2;
 
   message CoilValue {
-    uint32 addr = 1;
+    int32 addr = 1;
     string value = 2;
   }
 

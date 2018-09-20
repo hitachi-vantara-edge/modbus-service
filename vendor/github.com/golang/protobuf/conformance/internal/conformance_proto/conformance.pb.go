@@ -3,15 +3,17 @@
 
 package conformance
 
-import proto "github.com/golang/protobuf/proto"
-import fmt "fmt"
-import math "math"
-import any "github.com/golang/protobuf/ptypes/any"
-import duration "github.com/golang/protobuf/ptypes/duration"
-import _struct "github.com/golang/protobuf/ptypes/struct"
-import timestamp "github.com/golang/protobuf/ptypes/timestamp"
-import wrappers "github.com/golang/protobuf/ptypes/wrappers"
-import field_mask "google.golang.org/genproto/protobuf/field_mask"
+import (
+	fmt "fmt"
+	proto "github.com/golang/protobuf/proto"
+	any "github.com/golang/protobuf/ptypes/any"
+	duration "github.com/golang/protobuf/ptypes/duration"
+	_struct "github.com/golang/protobuf/ptypes/struct"
+	timestamp "github.com/golang/protobuf/ptypes/timestamp"
+	wrappers "github.com/golang/protobuf/ptypes/wrappers"
+	field_mask "google.golang.org/genproto/protobuf/field_mask"
+	math "math"
+)
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
@@ -137,14 +139,15 @@ func (*ConformanceRequest) ProtoMessage()    {}
 func (*ConformanceRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_e7c910178d599565, []int{0}
 }
+
 func (m *ConformanceRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ConformanceRequest.Unmarshal(m, b)
 }
 func (m *ConformanceRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_ConformanceRequest.Marshal(b, m, deterministic)
 }
-func (dst *ConformanceRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ConformanceRequest.Merge(dst, src)
+func (m *ConformanceRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ConformanceRequest.Merge(m, src)
 }
 func (m *ConformanceRequest) XXX_Size() int {
 	return xxx_messageInfo_ConformanceRequest.Size(m)
@@ -286,14 +289,15 @@ func (*ConformanceResponse) ProtoMessage()    {}
 func (*ConformanceResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_e7c910178d599565, []int{1}
 }
+
 func (m *ConformanceResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ConformanceResponse.Unmarshal(m, b)
 }
 func (m *ConformanceResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_ConformanceResponse.Marshal(b, m, deterministic)
 }
-func (dst *ConformanceResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ConformanceResponse.Merge(dst, src)
+func (m *ConformanceResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ConformanceResponse.Merge(m, src)
 }
 func (m *ConformanceResponse) XXX_Size() int {
 	return xxx_messageInfo_ConformanceResponse.Size(m)
@@ -648,14 +652,15 @@ func (*TestAllTypes) ProtoMessage()    {}
 func (*TestAllTypes) Descriptor() ([]byte, []int) {
 	return fileDescriptor_e7c910178d599565, []int{2}
 }
+
 func (m *TestAllTypes) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_TestAllTypes.Unmarshal(m, b)
 }
 func (m *TestAllTypes) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_TestAllTypes.Marshal(b, m, deterministic)
 }
-func (dst *TestAllTypes) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_TestAllTypes.Merge(dst, src)
+func (m *TestAllTypes) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_TestAllTypes.Merge(m, src)
 }
 func (m *TestAllTypes) XXX_Size() int {
 	return xxx_messageInfo_TestAllTypes.Size(m)
@@ -1570,14 +1575,15 @@ func (*TestAllTypes_NestedMessage) ProtoMessage()    {}
 func (*TestAllTypes_NestedMessage) Descriptor() ([]byte, []int) {
 	return fileDescriptor_e7c910178d599565, []int{2, 0}
 }
+
 func (m *TestAllTypes_NestedMessage) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_TestAllTypes_NestedMessage.Unmarshal(m, b)
 }
 func (m *TestAllTypes_NestedMessage) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_TestAllTypes_NestedMessage.Marshal(b, m, deterministic)
 }
-func (dst *TestAllTypes_NestedMessage) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_TestAllTypes_NestedMessage.Merge(dst, src)
+func (m *TestAllTypes_NestedMessage) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_TestAllTypes_NestedMessage.Merge(m, src)
 }
 func (m *TestAllTypes_NestedMessage) XXX_Size() int {
 	return xxx_messageInfo_TestAllTypes_NestedMessage.Size(m)
@@ -1615,14 +1621,15 @@ func (*ForeignMessage) ProtoMessage()    {}
 func (*ForeignMessage) Descriptor() ([]byte, []int) {
 	return fileDescriptor_e7c910178d599565, []int{3}
 }
+
 func (m *ForeignMessage) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ForeignMessage.Unmarshal(m, b)
 }
 func (m *ForeignMessage) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	return xxx_messageInfo_ForeignMessage.Marshal(b, m, deterministic)
 }
-func (dst *ForeignMessage) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ForeignMessage.Merge(dst, src)
+func (m *ForeignMessage) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ForeignMessage.Merge(m, src)
 }
 func (m *ForeignMessage) XXX_Size() int {
 	return xxx_messageInfo_ForeignMessage.Size(m)
@@ -1641,6 +1648,9 @@ func (m *ForeignMessage) GetC() int32 {
 }
 
 func init() {
+	proto.RegisterEnum("conformance.WireFormat", WireFormat_name, WireFormat_value)
+	proto.RegisterEnum("conformance.ForeignEnum", ForeignEnum_name, ForeignEnum_value)
+	proto.RegisterEnum("conformance.TestAllTypes_NestedEnum", TestAllTypes_NestedEnum_name, TestAllTypes_NestedEnum_value)
 	proto.RegisterType((*ConformanceRequest)(nil), "conformance.ConformanceRequest")
 	proto.RegisterType((*ConformanceResponse)(nil), "conformance.ConformanceResponse")
 	proto.RegisterType((*TestAllTypes)(nil), "conformance.TestAllTypes")
@@ -1665,9 +1675,6 @@ func init() {
 	proto.RegisterMapType((map[uint64]uint64)(nil), "conformance.TestAllTypes.MapUint64Uint64Entry")
 	proto.RegisterType((*TestAllTypes_NestedMessage)(nil), "conformance.TestAllTypes.NestedMessage")
 	proto.RegisterType((*ForeignMessage)(nil), "conformance.ForeignMessage")
-	proto.RegisterEnum("conformance.WireFormat", WireFormat_name, WireFormat_value)
-	proto.RegisterEnum("conformance.ForeignEnum", ForeignEnum_name, ForeignEnum_value)
-	proto.RegisterEnum("conformance.TestAllTypes_NestedEnum", TestAllTypes_NestedEnum_name, TestAllTypes_NestedEnum_value)
 }
 
 func init() { proto.RegisterFile("conformance.proto", fileDescriptor_e7c910178d599565) }

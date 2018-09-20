@@ -3,8 +3,8 @@ package modbus
 import (
 	"context"
 	"fmt"
+	modbus "github.com/hitachi-vantara-edge/modbus-service/api"
 	"github.com/hitachi-vantara-edge/modbus-service/pkg/libmodbus"
-	"github.com/hitachi-vantara-edge/modbus-service/pkg/rpc"
 	"github.com/sony/sonyflake"
 	"google.golang.org/grpc"
 	"net"
@@ -30,51 +30,57 @@ func NewModbusServer(addr string, port int) *modbusServer {
 	return &modbusServer{connection: &modbusConnection{}}
 }
 
-func (s *modbusServer) ReadHoldingReg(ctx context.Context, req *modbus.ReadHoldingRegRequest) (*modbus.
-	ReadHoldingRegReply, error) {
+func (s *modbusServer) ReadReg(ctx context.Context, req *modbus.ReadRegRequest) (*modbus.
+	ReadRegReply, error) {
 
 	var data = make([]uint16, 65535)
 	libmodbus.SetSlave(s.connection.Context, int32(req.SlaveAddr))
-	libmodbus.ReadRegisters(s.connection.Context, int32(req.StartAddr), int32(req.NumOfReg), data)
-	//var reg *C.uint16_t = C.read_regs(s.connection.Context, C.int(req.SlaveAddr), C.int(req.StartAddr), C.int(req.NumOfReg),
-	//	C.int(Btoi(req.ReadInput)))
-	//data := (*[1 << 30]C.uint16_t)(unsafe.Pointer(reg))[:65535:65535]
-	values := make([]*modbus.ReadHoldingRegReply_HoldingRegisterValue, 0)
+	if req.ReadInput {
+		libmodbus.ReadInputRegisters(s.connection.Context, req.StartAddr, req.NumOfReg, data)
+	} else {
+		libmodbus.ReadRegisters(s.connection.Context, req.StartAddr, req.NumOfReg, data)
+	}
+
+	values := make([]*modbus.ReadRegReply_RegisterValue, 0)
 	for i, v := range data {
-		ui := uint32(i)
-		if ui >= req.NumOfReg {
+		if i >= int(req.NumOfReg) {
 			break
 		}
-		addr := ui + req.StartAddr
+		addr := i + int(req.StartAddr)
 		fmt.Printf("reg[%v]=%v (0x%X)\n", addr, v, v)
-		values = append(values, &modbus.ReadHoldingRegReply_HoldingRegisterValue{
-			Addr:  uint32(addr),
+		values = append(values, &modbus.ReadRegReply_RegisterValue{
+			Addr:  int32(addr),
 			Value: fmt.Sprint(v),
 		})
 	}
 
-	return &modbus.ReadHoldingRegReply{ByteCount: uint32(len(values)), Values: values}, nil
+	return &modbus.ReadRegReply{ByteCount: int32(len(values)), IsInput: req.ReadInput, Values: values}, nil
 }
 
 func (s *modbusServer) ReadCoil(ctx context.Context, req *modbus.ReadCoilRequest) (*modbus.ReadCoilReply, error) {
-	//var coils *C.uint8_t = C.read_coils(s.connection.Context, C.int(req.SlaveAddr), C.int(req.StartAddr),
-	//	C.int(req.NumOfCoil), C.int(Btoi(req.ReadInput)))
-	//data := (*[1 << 30]C.uint8_t)(unsafe.Pointer(coils))[:65535:65535]
-	//values := make([]*modbus.ReadCoilReply_CoilValue, 0)
-	//for i, v := range data {
-	//	ui := uint32(i)
-	//	if ui >= req.NumOfCoil {
-	//		break
-	//	}
-	//	addr := ui + req.StartAddr
-	//	fmt.Printf("coil[%v]=%v (0x%X)\n", addr, v, v)
-	//	values = append(values, &modbus.ReadCoilReply_CoilValue{
-	//		Addr: uint32(addr),
-	//		Value: fmt.Sprint(v),
-	//	})
-	//}
-	//return &modbus.ReadCoilReply{BitCount: uint32(len(values)), Values: values}, nil
-	return &modbus.ReadCoilReply{}, nil
+
+	var data = make([]byte, 65535)
+	libmodbus.SetSlave(s.connection.Context, req.SlaveAddr)
+	if req.ReadInput {
+		libmodbus.ReadInputBits(s.connection.Context, req.StartAddr, req.NumOfCoil, data)
+	} else {
+		libmodbus.ReadBits(s.connection.Context, req.StartAddr, req.NumOfCoil, data)
+	}
+
+	values := make([]*modbus.ReadCoilReply_CoilValue, 0)
+	for i, v := range data {
+
+		if i >= int(req.NumOfCoil) {
+			break
+		}
+		addr := i + int(req.StartAddr)
+		fmt.Printf("coil[%v]=%v (0x%X)\n", addr, v, v)
+		values = append(values, &modbus.ReadCoilReply_CoilValue{
+			Addr:  int32(addr),
+			Value: fmt.Sprint(v),
+		})
+	}
+	return &modbus.ReadCoilReply{BitCount: int32(len(values)), Values: values}, nil
 }
 
 func (s *modbusServer) OpenTCPConnection(ctx context.Context, req *modbus.OpenTCPConnectionRequest) (*modbus.
@@ -185,13 +191,5 @@ func (s *modbusServer) Shutdown() {
 	if s.connection.Context != nil {
 		libmodbus.Close(s.connection.Context)
 		libmodbus.Free(s.connection.Context)
-	}
-}
-
-func Btoi(b bool) int {
-	if b {
-		return 1
-	} else {
-		return 0
 	}
 }
