@@ -88,6 +88,8 @@ func (s *modbusServer) OpenTCPConnection(ctx context.Context, req *modbus.OpenTC
 
 	mctx := libmodbus.NewTcp(req.Addr, req.Port)
 
+	fmt.Printf("addr=%v", req.Addr)
+	fmt.Printf("port=%v", req.Port)
 	reply := &modbus.ConnectionStatusReply{}
 
 	sf := sonyflake.NewSonyflake(sonyflake.Settings{})
@@ -116,7 +118,7 @@ func (s *modbusServer) OpenTCPConnection(ctx context.Context, req *modbus.OpenTC
 		errstr := libmodbus.GetErrnoStr()
 		s.connection.ErrorMsg = fmt.Sprint(errstr)
 		s.connection.Status = modbus.ConnectionStatusReply_ERROR
-		return reply, fmt.Errorf("Open Connection failed: %s\n", errstr)
+		return reply, fmt.Errorf("Open DYLAN Connection failed: %s\n", errstr)
 	} else {
 		s.connection.Status = modbus.ConnectionStatusReply_READY
 	}
@@ -167,10 +169,11 @@ func (s *modbusServer) Run() {
 	modbus.RegisterModbusServer(grpcServer, s)
 
 	go func() {
-		lis, err := net.Listen("tcp", fmt.Sprintf("localhost:%d", 10000))
+		lis, err := net.Listen("tcp", fmt.Sprintf("0.0.0.0:%d", 30000))
 		if err != nil {
 			fmt.Println(err)
 		}
+		fmt.Println("LISTENING")
 		grpcServer.Serve(lis)
 	}()
 
