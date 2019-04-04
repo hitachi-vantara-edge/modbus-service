@@ -169,7 +169,7 @@ func (s *modbusServer) Run() {
 	modbus.RegisterModbusServer(grpcServer, s)
 
 	go func() {
-		lis, err := net.Listen("tcp", fmt.Sprintf("0.0.0.0:%d", 30000))
+		lis, err := net.Listen("tcp", fmt.Sprintf("0.0.0.0:%d", 30999))
 		if err != nil {
 			fmt.Println(err)
 		}
