@@ -32,13 +32,19 @@ func NewModbusServer(addr string, port int) *modbusServer {
 
 func (s *modbusServer) ReadReg(ctx context.Context, req *modbus.ReadRegRequest) (*modbus.
 	ReadRegReply, error) {
-
+	var ret int32
 	var data = make([]uint16, 65535)
-	libmodbus.SetSlave(s.connection.Context, int32(req.SlaveAddr))
+	ret = libmodbus.SetSlave(s.connection.Context, int32(req.SlaveAddr))
+	if ret == -1 {
+		return nil, fmt.Errorf("fail to set slave addr. ret=%v", ret)
+	}
 	if req.ReadInput {
-		libmodbus.ReadInputRegisters(s.connection.Context, req.StartAddr, req.NumOfReg, data)
+		ret = libmodbus.ReadInputRegisters(s.connection.Context, req.StartAddr, req.NumOfReg, data)
 	} else {
-		libmodbus.ReadRegisters(s.connection.Context, req.StartAddr, req.NumOfReg, data)
+		ret = libmodbus.ReadRegisters(s.connection.Context, req.StartAddr, req.NumOfReg, data)
+	}
+	if ret == -1 {
+		return nil, fmt.Errorf("fail to read register. ret=%v", ret)
 	}
 
 	values := make([]*modbus.ReadRegReply_RegisterValue, 0)
@@ -58,13 +64,19 @@ func (s *modbusServer) ReadReg(ctx context.Context, req *modbus.ReadRegRequest) 
 }
 
 func (s *modbusServer) ReadCoil(ctx context.Context, req *modbus.ReadCoilRequest) (*modbus.ReadCoilReply, error) {
-
+	var ret int32
 	var data = make([]byte, 65535)
-	libmodbus.SetSlave(s.connection.Context, req.SlaveAddr)
+	ret = libmodbus.SetSlave(s.connection.Context, req.SlaveAddr)
+	if ret == -1 {
+		return nil, fmt.Errorf("fail to set slave addr. ret=%v", ret)
+	}
 	if req.ReadInput {
-		libmodbus.ReadInputBits(s.connection.Context, req.StartAddr, req.NumOfCoil, data)
+		ret = libmodbus.ReadInputBits(s.connection.Context, req.StartAddr, req.NumOfCoil, data)
 	} else {
-		libmodbus.ReadBits(s.connection.Context, req.StartAddr, req.NumOfCoil, data)
+		ret = libmodbus.ReadBits(s.connection.Context, req.StartAddr, req.NumOfCoil, data)
+	}
+	if ret == -1 {
+		return nil, fmt.Errorf("fail to read coil. ret=%v", ret)
 	}
 
 	values := make([]*modbus.ReadCoilReply_CoilValue, 0)
