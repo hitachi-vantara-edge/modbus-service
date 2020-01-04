@@ -1,18 +1,24 @@
 hash: c21612aaad7cf97ec5d894ac51acc51653cf84f44463206c6d1baee4d343c422
-updated: 2018-09-20T09:20:11.111378888-07:00
+updated: 2020-01-03T16:51:10.052197-08:00
 imports:
 - name: github.com/golang/protobuf
-  version: 7716a980bceefe9a0213654823d9ea62d23b87a2
+  version: 6c65a5562fc06764971b7c5d05c76c75e84bdbf7
   subpackages:
   - proto
   - ptypes
   - ptypes/any
   - ptypes/duration
   - ptypes/timestamp
+- name: github.com/rs/zerolog
+  version: b806a5ecbe5347ad9ef05121fea8f4acc65fa5fc
+  subpackages:
+  - internal/cbor
+  - internal/json
+  - log
 - name: github.com/sony/sonyflake
-  version: fa881fb1052b152e977c41023052c2f2a1c475e9
+  version: 4ae3f1aeaadd860acf428bc6ad1cba01d7b6bfd4
 - name: golang.org/x/net
-  version: 26e67e76b6c3f6ce91f7c52def5af501b4e0f3a2
+  version: c0dbc17a35534bf2e581d7a942408dc936316da4
   subpackages:
   - context
   - http/httpguts
@@ -22,37 +28,43 @@ imports:
   - internal/timeseries
   - trace
 - name: golang.org/x/sys
-  version: d641721ec2dead6fe5ca284096fe4b1fcd49e427
+  version: 1c9583448a9c3aa0f9a6a5241bf73c0bd8aafded
   subpackages:
   - unix
 - name: golang.org/x/text
-  version: 905a57155faa8230500121607930ebb9dd8e139c
+  version: b19bf474d317b857955b12035d2c5acb57ce8b01
   subpackages:
   - secure/bidirule
   - transform
   - unicode/bidi
   - unicode/norm
 - name: google.golang.org/genproto
-  version: c3f76f3b92d1ffa4c58a9ff842a58b8877655e0f
+  version: 09f6ed296fc66555a25fe4ce95173148778dfa85
   subpackages:
   - googleapis/rpc/status
 - name: google.golang.org/grpc
-  version: 8ce7e6babb5ad539d8448d25aaba0708af2626ed
+  version: f6d0f9ee430895e87ef1ceb5ac8f39725bafceef
   subpackages:
   - balancer
   - balancer/base
   - balancer/roundrobin
+  - binarylog/grpc_binarylog_v1
   - codes
   - connectivity
   - credentials
+  - credentials/internal
   - encoding
   - encoding/proto
   - grpclog
   - internal
   - internal/backoff
+  - internal/balancerload
+  - internal/binarylog
   - internal/channelz
   - internal/envconfig
   - internal/grpcrand
+  - internal/grpcsync
+  - internal/syscall
   - internal/transport
   - keepalive
   - metadata
@@ -61,7 +73,12 @@ imports:
   - resolver
   - resolver/dns
   - resolver/passthrough
+  - serviceconfig
   - stats
   - status
   - tap
+- name: gopkg.in/fsnotify/fsnotify.v1
+  version: c2828203cd70a50dcccfb2761f8b1f8ceef9a8e9
+- name: gopkg.in/yaml.v2
+  version: f221b8435cfb71e54062f6c6e99e9ade30b124d5
 testImports: []

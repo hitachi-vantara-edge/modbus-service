@@ -3,14 +3,16 @@ package modbus
 import (
 	"context"
 	"fmt"
-	modbus "github.com/hitachi-vantara-edge/modbus-service/api"
-	"github.com/hitachi-vantara-edge/modbus-service/pkg/libmodbus"
-	"github.com/sony/sonyflake"
-	"google.golang.org/grpc"
 	"net"
 	"os"
 	"os/signal"
 	"strconv"
+
+	modbus "github.com/hitachi-vantara-edge/modbus-service/api"
+	"github.com/hitachi-vantara-edge/modbus-service/pkg/libmodbus"
+	"github.com/rs/zerolog/log"
+	"github.com/sony/sonyflake"
+	"google.golang.org/grpc"
 )
 
 type modbusServer struct {
@@ -53,7 +55,7 @@ func (s *modbusServer) ReadReg(ctx context.Context, req *modbus.ReadRegRequest) 
 			break
 		}
 		addr := i + int(req.StartAddr)
-		fmt.Printf("reg[%v]=%v (0x%X)\n", addr, v, v)
+		log.Debug().Msgf("reg[%v]=%v (0x%X)\n", addr, v, v)
 		values = append(values, &modbus.ReadRegReply_RegisterValue{
 			Addr:  int32(addr),
 			Value: fmt.Sprint(v),
@@ -86,7 +88,7 @@ func (s *modbusServer) ReadCoil(ctx context.Context, req *modbus.ReadCoilRequest
 			break
 		}
 		addr := i + int(req.StartAddr)
-		fmt.Printf("coil[%v]=%v (0x%X)\n", addr, v, v)
+		log.Debug().Msgf("coil[%v]=%v (0x%X)\n", addr, v, v)
 		values = append(values, &modbus.ReadCoilReply_CoilValue{
 			Addr:  int32(addr),
 			Value: fmt.Sprint(v),
@@ -181,7 +183,7 @@ func (s *modbusServer) Run() {
 	go func() {
 		lis, err := net.Listen("tcp", fmt.Sprintf(":%d", 10000))
 		if err != nil {
-			fmt.Println(err)
+			log.Error().Err(err).Msg("Error on net.Listen tcp address :10000")
 		}
 		grpcServer.Serve(lis)
 	}()
