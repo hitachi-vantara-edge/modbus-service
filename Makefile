@@ -22,3 +22,10 @@ help: ## Display this help screen
 
 docker:
 	@docker build -f build/Dockerfile -t hitachivantaraedge/modbus-service .
+
+clean-glide: ## Remove vendor and glide lock
+	@rm -Rf vendor glide.lock
+
+glide: clean-glide ## Get the dependencies
+	@glide install -v
+	@glide update -v
