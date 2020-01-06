@@ -41,6 +41,8 @@ func main() {
 
 	server := modbus.NewModbusServer("127.0.0.1", port)
 
+	log.Info().Msg("Starting up Modbus Library Service...")
+
 	server.Run()
 
 }

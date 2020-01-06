@@ -15,6 +15,8 @@ import (
 	"google.golang.org/grpc"
 )
 
+const gRPCServerPort = 10000
+
 type modbusServer struct {
 	connection *modbusConnection
 }
@@ -180,12 +182,17 @@ func (s *modbusServer) Run() {
 
 	modbus.RegisterModbusServer(grpcServer, s)
 
+	log.Info().Msgf("Starting gRPC Listener on port :%d", gRPCServerPort)
+
 	go func() {
-		lis, err := net.Listen("tcp", fmt.Sprintf(":%d", 10000))
+		lis, err := net.Listen("tcp", fmt.Sprintf(":%d", gRPCServerPort))
 		if err != nil {
-			log.Error().Err(err).Msg("Error on net.Listen tcp address :10000")
+			log.Error().Err(err).Msgf("Error on net.Listen tcp address :%d", gRPCServerPort)
 		}
-		grpcServer.Serve(lis)
+		err = grpcServer.Serve(lis)
+		if err != nil {
+			log.Error().Err(err).Msg("Error on grpc server Serve of listener")
+		}
 	}()
 
 	c := make(chan os.Signal, 1)
@@ -194,8 +201,10 @@ func (s *modbusServer) Run() {
 
 	<-c
 
+	log.Info().Msgf("Stopping gRPC Server")
 	grpcServer.GracefulStop()
 
+	log.Info().Msgf("Shutting down Modbus Library Service")
 	s.Shutdown()
 
 	os.Exit(0)
