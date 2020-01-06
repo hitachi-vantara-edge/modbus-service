@@ -4,8 +4,9 @@ WORKDIR /go/src/github.com/hitachi-vantara-edge/modbus-service
 COPY . .
 RUN cd build/libmodbus-3.1.4 \
 && apt-get update \
-&& apt-get -y install build-essential \
-&& ./configure && make && make install && cp config.h ../../cmd/modbus/ \
+&& apt-get -y install build-essential autoconf libtool \
+&& autoreconf -f -i && ./configure && make && make install \
+&& cp config.h ../../cmd/modbus/ \
 && cd ../.. \
 && go build ./cmd/modbus/main.go
 
