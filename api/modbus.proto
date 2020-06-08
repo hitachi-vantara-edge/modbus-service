@@ -19,10 +19,11 @@ service Modbus {
 }
 
 message ReadRegRequest {
-  int32 slave_addr = 1;
-  int32 start_addr = 2;
-  int32 num_of_reg = 3;
-  bool  read_input = 4;
+  string connectionId = 1;
+  int32 slave_addr = 2;
+  int32 start_addr = 3;
+  int32 num_of_reg = 4;
+  bool  read_input = 5;
 }
 
 message ReadRegReply {
@@ -38,10 +39,11 @@ message ReadRegReply {
 }
 
 message ReadCoilRequest {
-  int32 slave_addr = 1;
-  int32 start_addr = 2;
-  int32 num_of_coil = 3;
-  bool   read_input = 4;
+  string connectionId = 1;
+  int32 slave_addr = 2;
+  int32 start_addr = 3;
+  int32 num_of_coil = 4;
+  bool   read_input = 5;
 }
 
 message ReadCoilReply {
