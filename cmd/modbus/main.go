@@ -34,15 +34,31 @@ func main() {
 
 	port, _ := strconv.Atoi(os.Getenv("MODBUS_PORT"))
 	// addr := os.Getenv("MODBUS_ADDR")
+	maxConnIdleTimeInMins := getEnvInt("MODBUS_MAX_CONNECTION_IDLE_TIME_IN_MINUTES", 0)
 
 	if port == 0 {
 		port = 5440
 	}
 
-	server := modbus.NewModbusServer("127.0.0.1", port)
+	server := modbus.NewModbusServer("127.0.0.1", port, maxConnIdleTimeInMins)
 
 	log.Info().Msg("Starting up Modbus Library Service...")
 
 	server.Run()
 
+}
+
+// Function GetEnvInt is os.getenv with default value.
+// If environment value is not set for key, it returns default value as integer.
+func getEnvInt(key string, fallback int) int {
+	value := os.Getenv(key)
+	if len(value) == 0 {
+		return fallback
+	}
+	i, err := strconv.Atoi(value)
+	if err != nil {
+		log.Error().Str("key", key).Err(err).Str("value", value).Msg("Unable to parse given value")
+		return fallback
+	}
+	return i
 }

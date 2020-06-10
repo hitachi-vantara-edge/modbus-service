@@ -1,5 +1,5 @@
 hash: c21612aaad7cf97ec5d894ac51acc51653cf84f44463206c6d1baee4d343c422
-updated: 2020-01-03T16:51:10.052197-08:00
+updated: 2020-06-09T23:30:31.498434-07:00
 imports:
 - name: github.com/golang/protobuf
   version: 6c65a5562fc06764971b7c5d05c76c75e84bdbf7
@@ -9,18 +9,17 @@ imports:
   - ptypes/any
   - ptypes/duration
   - ptypes/timestamp
+- name: github.com/google/uuid
+  version: cb32006e483f2a23230e24209cf185c65b477dbf
 - name: github.com/rs/zerolog
   version: b806a5ecbe5347ad9ef05121fea8f4acc65fa5fc
   subpackages:
   - internal/cbor
   - internal/json
   - log
-- name: github.com/sony/sonyflake
-  version: 4ae3f1aeaadd860acf428bc6ad1cba01d7b6bfd4
 - name: golang.org/x/net
   version: c0dbc17a35534bf2e581d7a942408dc936316da4
   subpackages:
-  - context
   - http/httpguts
   - http2
   - http2/hpack
