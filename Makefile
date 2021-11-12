@@ -1,5 +1,5 @@
 SERVER_OUT := "cmd/modbus/main"
-PKG := "github.com/hitachi-vantara-edge/modbus-service"
+PKG := github.com/hitachi-vantara-edge/modbus-service
 SERVER_PKG_BUILD := "${PKG}/cmd/modbus"
 PKG_LIST := $(shell go list ${PKG}/... | grep -v /vendor/)
 CERT_PATH := "~/certs"
@@ -21,7 +21,7 @@ help: ## Display this help screen
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 docker:
-	@docker build -f build/Dockerfile -t hitachivantaraedge/modbus-service .
+	@docker build -f build/Dockerfile -t hitachi-vantara-edge/arm64/modbus-service .
 
 clean-glide: ## Remove vendor and glide lock
 	@rm -Rf vendor glide.lock

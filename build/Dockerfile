@@ -12,7 +12,6 @@ RUN cd build/libmodbus-3.1.4 \
 
 FROM debian:stretch
 WORKDIR /
-
 COPY --from=builder /go/src/github.com/hitachi-vantara-edge/modbus-service/main /
 COPY --from=builder /usr/local/lib/ /usr/local/lib/
 
