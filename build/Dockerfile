@@ -1,4 +1,6 @@
-FROM golang:1.10-stretch AS builder
+ARG BUILDER_IMAGE=golang:1.10-stretch
+ARG BASE_OS=debian:stretch
+FROM ${BUILDER_IMAGE} AS builder
 WORKDIR /go/src/github.com/hitachi-vantara-edge/modbus-service
 
 COPY . .
@@ -10,7 +12,7 @@ RUN cd build/libmodbus-3.1.4 \
 && cd ../.. \
 && go build ./cmd/modbus/main.go
 
-FROM debian:stretch
+FROM ${BASE_OS}
 WORKDIR /
 
 COPY --from=builder /go/src/github.com/hitachi-vantara-edge/modbus-service/main /
