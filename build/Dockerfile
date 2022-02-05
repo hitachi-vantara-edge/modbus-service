@@ -1,5 +1,5 @@
-ARG BUILDER_IMAGE=golang:1.10-stretch
-ARG BASE_OS=debian:stretch
+ARG BUILDER_IMAGE
+ARG BASE_OS
 FROM ${BUILDER_IMAGE} AS builder
 WORKDIR /go/src/github.com/hitachi-vantara-edge/modbus-service
 
