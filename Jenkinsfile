@@ -31,8 +31,6 @@ def commit_sha = null
 project_path = "/src/$project_domain$project_dir$project_name"
 def failure_step = ""
 
-echo "Auto Deploy Setting: " + "$deploy_to_dev"
-
 node {
     try {
 
@@ -87,12 +85,6 @@ node {
              failure_step = "Artifactory: ARM64"
              artifactory imageName: "arm64/${image_name}", imageTag: "${image_lib_version}", projectName: "${project_name}", dockerfileName: "$WORKSPACE/_dockerfile.arm64"
        	     echo "Artifactora: ARM64 succeeded"
-        }
-
-        // Deploy the Docker containers to the K8s DEV Env.
-        stage('Deploy to DEV K8s') {
-              failure_step = "Deploy to DEV K8s"
-              deploygateway imageName: "amd64/${image_name}", projectName: "${project_name}", imageTag: "${image_tag}", deploytodev: "${deploy_to_dev}"
         }
 
         currentBuild.result = "SUCCESS"
