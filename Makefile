@@ -38,13 +38,13 @@ IMG_TAG=${MODBUS_LIB_VERSION}
 BRANCH=master
 TAG_XT=
 
-AMD64_BUILD=${HV_REGISTRY}/${HV_GATEWAY_REPO}/amd64/hiota-modbus-lib:${IMG_TAG}
-ARM64_BUILD=${HV_REGISTRY}/${HV_GATEWAY_REPO}/arm64/hiota-modbus-lib:${IMG_TAG}
+AMD64_BUILD=${HV_REGISTRY}/${HV_GATEWAY_REPO}/amd64/modbus-service:${IMG_TAG}
+ARM64_BUILD=${HV_REGISTRY}/${HV_GATEWAY_REPO}/arm64/modbus-service:${IMG_TAG}
 AMD64_BUILDER_IMAGE=${HV_REGISTRY}/${HV_THIRD_PARTY_REPO}/amd64/golang:1.10-stretch
 ARM64_BUILDER_IMAGE=${HV_REGISTRY}/${HV_THIRD_PARTY_REPO}/arm64/golang:1.10-stretch
 AMD64_BASE_OS=${HV_REGISTRY}/${HV_THIRD_PARTY_REPO}/amd64/debian:stretch
 ARM64_BASE_OS=${HV_REGISTRY}/${HV_THIRD_PARTY_REPO}/arm64/debian:stretch
-MANIFEST=${HV_REGISTRY}/${HV_GATEWAY_REPO}/hiota-modbus-lib:${IMG_TAG}
+MANIFEST=${HV_REGISTRY}/${HV_GATEWAY_REPO}/modbus-service:${IMG_TAG}
 
 all: buildx
 build-amd64: 
@@ -66,8 +66,8 @@ setup-multarch-env:
 
 # Jenkins arm64 build stage should make this target
 build-arm64-by-jenkins: setup-multarch-env build-amd64 build-arm64
-	docker tag ${AMD64_BUILD} amd64/hiota-modbus-lib:${IMG_TAG}
-	docker tag ${ARM64_BUILD} arm64/hiota-modbus-lib:${IMG_TAG}
+	docker tag ${AMD64_BUILD} amd64/modbus-service:${IMG_TAG}
+	docker tag ${ARM64_BUILD} arm64/modbus-service:${IMG_TAG}
 
 buildx: build-amd64 build-arm64
 	docker manifest rm ${MANIFEST} 2>/dev/null || echo
