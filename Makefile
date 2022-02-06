@@ -66,7 +66,7 @@ setup-multarch-env:
 		--reset -p yes >/dev/null 2>&1
 
 # Jenkins arm64 build stage should make this target
-build-arm64-by-jenkins: setup-multarch-env build-arm64 build-arm64
+build-arm64-by-jenkins: setup-multarch-env build-amd64 build-arm64
 	docker tag ${AMD64_BUILD} amd64/hiota-modbus-lib:${IMG_TAG}${TAG_XT}
 	docker tag ${ARM64_BUILD} arm64/hiota-modbus-lib:${IMG_TAG}${TAG_XT}
 
