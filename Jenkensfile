@@ -16,15 +16,14 @@ def git_url = "https://github.com/hitachi-vantara-edge/modbus-service.git"
 
 // Image name (should begin with hiota)
 def image_name = "modbus-service"
-def modbus_lib_version = "v3.3.8"
-def image_tag = "$image_tag"
+def image_tag = ""
+def modbus_lib_version = "3.1.4"
 // Source code directory
 
 // Dockerfile name for building your image
 // ----------------------------------------------------------------
 
 def build_branch = "$build_branch"
-def commit_tag=""
 def docker_image = null
 def commit_author = null
 def commit_message = null
@@ -74,9 +73,9 @@ node {
 
             stage('Building AMD64 and ARM64 Images') {
                 failure_step = "ARM64 Image Build"
-                sh "cd $project_path && pwd && ls &&  make build-arm64-by-jenkins IMAGE_TAG=${modbus_lib_version} TAG_XT=-${image_tag}"
-                arm64_img="arm64/${image_name}:${modbus_lib_version}-${image_tag}"
-                amd64_img="amd64/${image_name}:${modbus_lib_version}-${image_tag}"
+                sh "cd $project_path && pwd && ls &&  make build-arm64-by-jenkins IMAGE_TAG=${modbus_lib_version}"
+                arm64_img="arm64/${image_name}:${modbus_lib_version}${image_tag}"
+                amd64_img="amd64/${image_name}:${modbus_lib_version}${image_tag}"
                 sh "echo FROM ${arm64_img} >/output/_dockerfile.arm64"
                 sh "echo FROM ${amd64_img} >/output/_dockerfile.amd64"
             }
@@ -84,9 +83,9 @@ node {
 			
         stage('Artifactory') {
              failure_step = "Artifactory: AMD64"
-             artifactory imageName: "amd64/${image_name}", imageTag: "${image_tag}", projectName: "${project_name}", dockerfileName: "$WORKSPACE/_dockerfile.amd64"
+             artifactory imageName: "amd64/${image_name}", imageTag: "${image_lib_version}", projectName: "${project_name}", dockerfileName: "$WORKSPACE/_dockerfile.amd64"
              failure_step = "Artifactory: ARM64"
-             artifactory imageName: "arm64/${image_name}", imageTag: "${image_tag}", projectName: "${project_name}", dockerfileName: "$WORKSPACE/_dockerfile.arm64"
+             artifactory imageName: "arm64/${image_name}", imageTag: "${image_lib_version}", projectName: "${project_name}", dockerfileName: "$WORKSPACE/_dockerfile.arm64"
        	     echo "Artifactora: ARM64 succeeded"
         }
 
