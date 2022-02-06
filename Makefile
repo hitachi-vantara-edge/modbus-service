@@ -49,14 +49,12 @@ MANIFEST=${HV_REGISTRY}/${HV_GATEWAY_REPO}/hiota-modbus-lib:${IMG_TAG}${TAG_XT}
 export GIT_PREFIX
 all: buildx
 build-amd64: 
-	cd src && \
 	docker build --build-arg BUILDER_IMAGE=${AMD64_BUILDER_IMAGE} \
              --build-arg BASE_OS=${AMD64_BASE_OS} \
              --file build/Dockerfile \
              --tag ${AMD64_BUILD} .
 
 build-arm64: 
-	cd src && \
 	docker build --build-arg BUILDER_IMAGE=${ARM64_BUILDER_IMAGE} \
              --build-arg BASE_OS=${ARM64_BASE_OS} \
              --file build/Dockerfile \
