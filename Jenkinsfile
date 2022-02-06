@@ -81,9 +81,9 @@ node {
 			
         stage('Artifactory') {
              failure_step = "Artifactory: AMD64"
-             artifactory imageName: "amd64/${image_name}", imageTag: "${image_lib_version}", projectName: "${project_name}", dockerfileName: "$WORKSPACE/_dockerfile.amd64"
+             artifactory imageName: "amd64/${image_name}", imageTag: "${modbus_lib_version}", projectName: "${project_name}", dockerfileName: "$WORKSPACE/_dockerfile.amd64"
              failure_step = "Artifactory: ARM64"
-             artifactory imageName: "arm64/${image_name}", imageTag: "${image_lib_version}", projectName: "${project_name}", dockerfileName: "$WORKSPACE/_dockerfile.arm64"
+             artifactory imageName: "arm64/${image_name}", imageTag: "${modbus_lib_version}", projectName: "${project_name}", dockerfileName: "$WORKSPACE/_dockerfile.arm64"
        	     echo "Artifactora: ARM64 succeeded"
         }
 
