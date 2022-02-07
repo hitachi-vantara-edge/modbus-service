@@ -85,7 +85,7 @@ node {
                  artifactory imageName: "amd64/${image_name}", imageTag: "${modbus_lib_version}", projectName: "${project_name}", dockerfileName: "$WORKSPACE/_dockerfile.amd64"
              } catch (Exception e) {
                  // This repo does not have Chart, exception is expected and ignored unless it's something other than 'values.yaml does not exist'
-                 if (!e.message.contains("chart/modbus-service/values.yaml does not exist") {
+                 if (!e.message.contains("chart/modbus-service/values.yaml does not exist")) {
                       throw e         
                  }
              }
@@ -94,7 +94,7 @@ node {
                  artifactory imageName: "arm64/${image_name}", imageTag: "${modbus_lib_version}", projectName: "${project_name}", dockerfileName: "$WORKSPACE/_dockerfile.arm64"
              } catch (Exception e) {
                  // This repo does not have Chart, exception is expected and ignored unless it's something other than 'values.yaml does not exist'
-                 if (!e.message.contains("chart/modbus-service/values.yaml does not exist") {
+                 if (!e.message.contains("chart/modbus-service/values.yaml does not exist")) {
                       throw e         
                  }
              }
