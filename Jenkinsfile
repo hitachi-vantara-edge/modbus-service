@@ -70,8 +70,8 @@ node {
             }
 
             stage('Building AMD64 and ARM64 Images') {
-                failure_step = "ARM64 Image Build"
-                sh "cd $project_path && pwd && ls &&  make build-arm64-by-jenkins IMAGE_TAG=${modbus_lib_version}"
+                failure_step = "AMD64 and ARM64 Image Build"
+                sh "cd $project_path && make build-arm64-by-jenkins IMAGE_TAG=${modbus_lib_version}"
                 arm64_img="arm64/${image_name}:${modbus_lib_version}"
                 amd64_img="amd64/${image_name}:${modbus_lib_version}"
                 sh "echo FROM ${arm64_img} >/output/_dockerfile.arm64"
@@ -81,9 +81,23 @@ node {
 			
         stage('Artifactory') {
              failure_step = "Artifactory: AMD64"
-             artifactory imageName: "amd64/${image_name}", imageTag: "${modbus_lib_version}", projectName: "${project_name}", dockerfileName: "$WORKSPACE/_dockerfile.amd64"
+             try {
+                 artifactory imageName: "amd64/${image_name}", imageTag: "${modbus_lib_version}", projectName: "${project_name}", dockerfileName: "$WORKSPACE/_dockerfile.amd64"
+             } catch (Exception e) {
+                 // This repo does not have Chart, exception is expected and ignored unless it's something other than 'values.yaml does not exist'
+                 if (!e.message.contains("chart/modbus-service/values.yaml does not exist") {
+                      throw e         
+                 }
+             }
              failure_step = "Artifactory: ARM64"
-             artifactory imageName: "arm64/${image_name}", imageTag: "${modbus_lib_version}", projectName: "${project_name}", dockerfileName: "$WORKSPACE/_dockerfile.arm64"
+             try {
+                 artifactory imageName: "arm64/${image_name}", imageTag: "${modbus_lib_version}", projectName: "${project_name}", dockerfileName: "$WORKSPACE/_dockerfile.arm64"
+             } catch (Exception e) {
+                 // This repo does not have Chart, exception is expected and ignored unless it's something other than 'values.yaml does not exist'
+                 if (!e.message.contains("chart/modbus-service/values.yaml does not exist") {
+                      throw e         
+                 }
+             }
        	     echo "Artifactora: ARM64 succeeded"
         }
 
