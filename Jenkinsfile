@@ -12,6 +12,7 @@ def project_dir = "lumada-edge/"
 def project_domain = "github.com/"
 // Git SSH
 def git_url = "https://github.com/hitachi-vantara-edge/modbus-service.git"
+def artifactory_url="lumadaedge-docker-dev-sc.repo.sc.eng.hitachivantara.com"
 // Name you wish to give your binary
 
 // Image name (should begin with hiota)
@@ -42,11 +43,11 @@ node {
         checkout scm
 
         // Build docker image to build binary in
-        docker.withRegistry('http://lumadaedge-docker-dev-sc.repo.sc.eng.hitachivantara.com', 'artifactory') {
+        docker.withRegistry("http://${artifactory_url}", 'artifactory') {
             stage('Prepare Docker Image') {
 
                 failure_step = "Prepare Docker Image"
-                docker_image_for_arm64_build = docker.image("lumadaedge-docker-dev-sc.repo.sc.eng.hitachivantara.com/repository/pandora/build_images/multarch-builder:experiment-01")
+                docker_image_for_arm64_build = docker.image("${artifactory_url}/repository/pandora/build_images/multarch-builder:experiment-01")
             }
         }
 
@@ -72,34 +73,30 @@ node {
             stage('Building AMD64 and ARM64 Images') {
                 failure_step = "AMD64 and ARM64 Image Build"
                 sh "cd $project_path && make build-arm64-by-jenkins IMAGE_TAG=${modbus_lib_version}"
-                arm64_img="arm64/${image_name}:${modbus_lib_version}"
-                amd64_img="amd64/${image_name}:${modbus_lib_version}"
                 sh "echo FROM ${arm64_img} >/output/_dockerfile.arm64"
                 sh "echo FROM ${amd64_img} >/output/_dockerfile.amd64"
             }
 	}
 			
-        stage('Artifactory') {
-             failure_step = "Artifactory: AMD64"
-             try {
-                 artifactory imageName: "amd64/${image_name}", imageTag: "${modbus_lib_version}", projectName: "${project_name}", dockerfileName: "$WORKSPACE/_dockerfile.amd64"
-             } catch (Exception e) {
-                 // This repo does not have Chart, exception is expected and ignored unless it's something other than 'values.yaml does not exist'
-                 if (!e.message.contains("chart/modbus-service/values.yaml does not exist")) {
-                      throw e         
-                 }
-             }
-             failure_step = "Artifactory: ARM64"
-             try {
-                 artifactory imageName: "arm64/${image_name}", imageTag: "${modbus_lib_version}", projectName: "${project_name}", dockerfileName: "$WORKSPACE/_dockerfile.arm64"
-             } catch (Exception e) {
-                 // This repo does not have Chart, exception is expected and ignored unless it's something other than 'values.yaml does not exist'
-                 if (!e.message.contains("chart/modbus-service/values.yaml does not exist")) {
-                      throw e         
-                 }
-             }
-       	     echo "Artifactora: ARM64 succeeded"
-        }
+        withCredentials([usernamePassword(credentialsId: 'artifactory', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                sh "docker login $artifactory_url --username $USERNAME --password $PASSWORD"
+                stage('Artifactory: ARM64') {
+                     arm64_local_img="arm64/${image_name}:${modbus_lib_version}"
+                     failure_step = "Artifactory: ARM64"
+		     sh "docker tag ${arm64_local_image} $artifactory_url/repository/pandora/arm64/${image_name}:${modbus_lib_version}-${image_tag}"
+                     sh "docker push $artifactory_url/repository/pandora/arm64/${image_name}:${modbus_lib_version}-${image_tag}"
+		     sh "docker tag ${arm64_local_image} $artifactory_url/repository/pandora/arm64/${image_name}:latest"
+		     sh "docker push $artifactory_url/repository/pandora/arm64/${image_name}:latest"
+                }
+                stage('Artifactory: AMD64') {
+                     amd64_local_img="amd64/${image_name}:${modbus_lib_version}"
+                     failure_step = "Artifactory: AMD64"
+		     sh "docker tag ${amd64_local_image} $artifactory_url/repository/pandora/amd64/${image_name}:${modbus_lib_version}-${image_tag}"
+                     sh "docker push $artifactory_url/repository/pandora/amd64/${image_name}:${modbus_lib_version}-${image_tag}"
+		     sh "docker tag ${amd64_local_image} $artifactory_url/repository/pandora/amd64/${image_name}:latest"
+		     sh "docker push $artifactory_url/repository/pandora/amd64/${image_name}:latest"
+                }
+	}
 
         currentBuild.result = "SUCCESS"
     }
