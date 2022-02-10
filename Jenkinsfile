@@ -73,8 +73,6 @@ node {
             stage('Building AMD64 and ARM64 Images') {
                 failure_step = "AMD64 and ARM64 Image Build"
                 sh "cd $project_path && make build-arm64-by-jenkins IMAGE_TAG=${modbus_lib_version}"
-                sh "echo FROM ${arm64_img} >/output/_dockerfile.arm64"
-                sh "echo FROM ${amd64_img} >/output/_dockerfile.amd64"
             }
 	}
 			
