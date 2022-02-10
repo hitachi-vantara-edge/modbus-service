@@ -79,7 +79,7 @@ node {
         withCredentials([usernamePassword(credentialsId: 'artifactory', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                 sh "docker login $artifactory_url --username $USERNAME --password $PASSWORD"
                 stage('Artifactory: ARM64') {
-                     arm64_local_img="arm64/${image_name}:${modbus_lib_version}"
+                     arm64_local_image="arm64/${image_name}:${modbus_lib_version}"
                      failure_step = "Artifactory: ARM64"
 		     sh "docker tag ${arm64_local_image} $artifactory_url/repository/pandora/arm64/${image_name}:${modbus_lib_version}-${image_tag}"
                      sh "docker push $artifactory_url/repository/pandora/arm64/${image_name}:${modbus_lib_version}-${image_tag}"
@@ -87,7 +87,7 @@ node {
 		     sh "docker push $artifactory_url/repository/pandora/arm64/${image_name}:latest"
                 }
                 stage('Artifactory: AMD64') {
-                     amd64_local_img="amd64/${image_name}:${modbus_lib_version}"
+                     amd64_local_image="amd64/${image_name}:${modbus_lib_version}"
                      failure_step = "Artifactory: AMD64"
 		     sh "docker tag ${amd64_local_image} $artifactory_url/repository/pandora/amd64/${image_name}:${modbus_lib_version}-${image_tag}"
                      sh "docker push $artifactory_url/repository/pandora/amd64/${image_name}:${modbus_lib_version}-${image_tag}"
