@@ -17,7 +17,6 @@ def artifactory_url="lumadaedge-docker-dev-sc.repo.sc.eng.hitachivantara.com"
 
 // Image name (should begin with hiota)
 def image_name = "modbus-service"
-def image_tag = ""
 def modbus_lib_version = "3.1.4"
 // Source code directory
 
@@ -36,9 +35,6 @@ node {
     try {
 
         // Needed for trigger release builds or general pipeline builds
-        if (image_tag == "") {
-            image_tag = currentBuild.id
-        }
 
         checkout scm
 
@@ -81,16 +77,16 @@ node {
                 stage('Artifactory: ARM64') {
                      arm64_local_image="arm64/${image_name}:${modbus_lib_version}"
                      failure_step = "Artifactory: ARM64"
-		     sh "docker tag ${arm64_local_image} $artifactory_url/repository/pandora/arm64/${image_name}:${modbus_lib_version}-${image_tag}"
-                     sh "docker push $artifactory_url/repository/pandora/arm64/${image_name}:${modbus_lib_version}-${image_tag}"
+		     sh "docker tag ${arm64_local_image} $artifactory_url/repository/pandora/arm64/${image_name}:${modbus_lib_version}"
+                     sh "docker push $artifactory_url/repository/pandora/arm64/${image_name}:${modbus_lib_version}"
 		     sh "docker tag ${arm64_local_image} $artifactory_url/repository/pandora/arm64/${image_name}:latest"
 		     sh "docker push $artifactory_url/repository/pandora/arm64/${image_name}:latest"
                 }
                 stage('Artifactory: AMD64') {
                      amd64_local_image="amd64/${image_name}:${modbus_lib_version}"
                      failure_step = "Artifactory: AMD64"
-		     sh "docker tag ${amd64_local_image} $artifactory_url/repository/pandora/amd64/${image_name}:${modbus_lib_version}-${image_tag}"
-                     sh "docker push $artifactory_url/repository/pandora/amd64/${image_name}:${modbus_lib_version}-${image_tag}"
+		     sh "docker tag ${amd64_local_image} $artifactory_url/repository/pandora/amd64/${image_name}:${modbus_lib_version}"
+                     sh "docker push $artifactory_url/repository/pandora/amd64/${image_name}:${modbus_lib_version}"
 		     sh "docker tag ${amd64_local_image} $artifactory_url/repository/pandora/amd64/${image_name}:latest"
 		     sh "docker push $artifactory_url/repository/pandora/amd64/${image_name}:latest"
                 }
