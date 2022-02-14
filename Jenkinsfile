@@ -82,6 +82,8 @@ node {
                      sh "docker push $artifactory_url/repository/pandora/arm64/${image_name}:${modbus_service_version}"
 		     sh "docker tag ${arm64_local_image} $artifactory_url/repository/pandora/arm64/${image_name}:latest"
 		     sh "docker push $artifactory_url/repository/pandora/arm64/${image_name}:latest"
+		     sh "docker tag ${arm64_local_image} $artifactory_url/repository/pandora/arm64/${image_name}:${currentBuild.id}"
+		     sh "docker push $artifactory_url/repository/pandora/arm64/${image_name}:${currentBuild.id}"
                 }
                 stage('Artifactory: AMD64') {
                      amd64_local_image="amd64/${image_name}:${modbus_lib_version}"
@@ -90,6 +92,8 @@ node {
                      sh "docker push $artifactory_url/repository/pandora/amd64/${image_name}:${modbus_service_version}"
 		     sh "docker tag ${amd64_local_image} $artifactory_url/repository/pandora/amd64/${image_name}:latest"
 		     sh "docker push $artifactory_url/repository/pandora/amd64/${image_name}:latest"
+		     sh "docker tag ${amd64_local_image} $artifactory_url/repository/pandora/amd64/${image_name}:${currentBuild.id}"
+		     sh "docker push $artifactory_url/repository/pandora/amd64/${image_name}:${currentBuild.id}"
                 }
 	}
 
